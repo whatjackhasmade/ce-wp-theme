@@ -64,7 +64,8 @@ class StarterSite extends Timber\Site
         add_action('after_setup_theme', array($this, 'theme_supports'));
         add_filter('graphql_jwt_auth_secret_key', array($this, 'graphql_jwt'));
         add_filter('graphql_connection_max_query_amount', array($this, 'graphql_limit'), 10, 5);
-        add_action('init', array($this, 'register_post_types'));
+        add_action('init', array($this, 'register_menus'));
+        add_action('init', array($this, 'register_post_types')); #
         add_action('init', array($this, 'register_taxonomies'));
         parent::__construct();
     }
@@ -78,6 +79,15 @@ class StarterSite extends Timber\Site
     {
         $amount = 1000;
         return $amount;
+    }
+    public function register_menus()
+    {
+        register_nav_menus(array(
+            'header' => 'Header Menu',
+            'footer_one' => '1. Footer Menu',
+            'footer_two' => '2. Footer Menu',
+            'footer_three' => '3. Footer Menu',
+        ));
     }
     /** This is where you can register custom post types. */
     public function register_post_types()
