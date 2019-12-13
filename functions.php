@@ -1,7 +1,7 @@
 <?php
 /**
- * Timber starter-theme
- * https://github.com/timber/starter-theme
+ * Celtic Elements headless theme
+ * Based on: https://github.com/timber/starter-theme
  *
  * @package  WordPress
  * @subpackage  Timber
