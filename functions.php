@@ -62,7 +62,6 @@ class StarterSite extends Timber\Site
     public function __construct()
     {
         add_action('after_setup_theme', array($this, 'theme_supports'));
-        add_action('graphql_jwt_auth_expire', array($this, 'extend_jwt_auth_expire'));
         add_filter('graphql_jwt_auth_secret_key', array($this, 'graphql_jwt'));
         add_filter('graphql_connection_max_query_amount', array($this, 'graphql_limit'), 10, 5);
         add_action('init', array($this, 'register_menus'));
@@ -73,12 +72,7 @@ class StarterSite extends Timber\Site
     /** This is where you set your JWT secret. */
     public function graphql_jwt()
     {
-        return '5|=z5}]h*reW)yT&qNhT[C(>vTH[Q[Jx:K+:L2pILP-cxvhD@>A8:]l@s,je9yPM';
-    }
-    /** JWT Expiration set to 7 days from login. */
-    public function extend_jwt_auth_expire()
-    {
-        return time() + (DAY_IN_SECONDS * 7);
+        return '52|=z5}]h*reW)yT&qNhT[C(>vTH[Q[Jx:K+:L2pILP-cxvhD@>A8:]l@s,je9yPM';
     }
     /** Increase the maximum number of results from 100 to 1000 */
     public function graphql_limit($amount, $source, $args, $context, $info)
