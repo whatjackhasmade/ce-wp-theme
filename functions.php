@@ -67,10 +67,19 @@ class StarterSite extends Timber\Site
         add_filter('allowed_block_types', array($this, 'misha_allowed_block_types'));
         add_filter('use_block_editor_for_post_type', array($this, 'gutenberg_products'), 10, 2);
         add_action('acf/init', array($this, 'register_blocks'));
+        add_action('init', array($this, 'default_products_blocks'));
         add_action('init', array($this, 'register_menus'));
         add_action('init', array($this, 'register_post_types')); #
         add_action('init', array($this, 'register_taxonomies'));
         parent::__construct();
+    }
+
+    public function default_products_blocks()
+    {
+        $post_type_object = get_post_type_object('product');
+        $post_type_object->template = array(
+            array('acf/slice-grid'),
+        );
     }
 
     public function gutenberg_products($can_edit, $post_type)
