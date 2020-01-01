@@ -64,6 +64,8 @@ class StarterSite extends Timber\Site
         add_action('after_setup_theme', array($this, 'theme_supports'));
         add_filter('graphql_jwt_auth_secret_key', array($this, 'graphql_jwt'));
         add_filter('graphql_connection_max_query_amount', array($this, 'graphql_limit'), 10, 5);
+        add_filter('allowed_block_types', array($this, 'misha_allowed_block_types'));
+        add_action('acf/init', array($this, 'register_blocks'));
         add_action('init', array($this, 'register_menus'));
         add_action('init', array($this, 'register_post_types')); #
         add_action('init', array($this, 'register_taxonomies'));
@@ -98,6 +100,50 @@ class StarterSite extends Timber\Site
     public function register_taxonomies()
     {
 
+    }
+
+    public function register_blocks()
+    {
+        if (function_exists('acf_register_block_type')) {
+            $acfBlocks = array('banner', 'carousel', 'panels', 'row', 'slider');
+            $acfBlocksIcons = array('align-left', 'align-left', 'align-left', 'align-left', 'align-left');
+
+            $acfBlocks = array_combine($acfBlocks, $acfBlocksIcons);
+
+            foreach ($acfBlocks as $b => $v) {
+                $settings = array(
+                    'name' => $b,
+                    'title' => (ucfirst($b)),
+                    'description' => ('A custom ' . $b . ' block.'),
+                    'render_callback' => array($this, 'render_block'),
+                    'category' => 'layout',
+                    'mode' => 'preview',
+                    'icon' => $v,
+                    'supports' => array(
+                        'align' => array('wide', 'full'),
+                    ),
+                );
+
+                // Register a new block.
+                acf_register_block_type($settings);
+            }
+        }
+    }
+
+    public function misha_allowed_block_types($allowed_blocks)
+    {
+        $acfBlocks = array('acf/banner', 'acf/carousel', 'acf/panels', 'acf/row', 'acf/slider');
+        $defaultBlocks = array(
+            'core/image',
+            'core/paragraph',
+            'core/heading',
+            'core/list',
+            'core/figure',
+        );
+
+        $enabledBlocks = array_merge($acfBlocks, $defaultBlocks);
+
+        return $enabledBlocks;
     }
 
     public function theme_supports()
