@@ -105,8 +105,8 @@ class StarterSite extends Timber\Site
     public function register_blocks()
     {
         if (function_exists('acf_register_block_type')) {
-            $acfBlocks = array('banner', 'carousel', 'panels', 'row', 'slider');
-            $acfBlocksIcons = array('align-left', 'align-left', 'align-left', 'align-left', 'align-left');
+            $acfBlocks = array('banner', 'carousel', 'panels', 'row', 'slice-grid', 'slider');
+            $acfBlocksIcons = array('align-left', 'align-left', 'align-left', 'align-left', 'align-left', 'align-left');
 
             $acfBlocks = array_combine($acfBlocks, $acfBlocksIcons);
 
@@ -132,7 +132,7 @@ class StarterSite extends Timber\Site
 
     public function misha_allowed_block_types($allowed_blocks)
     {
-        $acfBlocks = array('acf/banner', 'acf/carousel', 'acf/panels', 'acf/row', 'acf/slider');
+        $acfBlocks = array('acf/banner', 'acf/carousel', 'acf/panels', 'acf/row', 'acf/slice-grid', 'acf/slider');
         $defaultBlocks = array(
             'core/image',
             'core/paragraph',
