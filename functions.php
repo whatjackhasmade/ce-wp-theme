@@ -65,12 +65,23 @@ class StarterSite extends Timber\Site
         add_filter('graphql_jwt_auth_secret_key', array($this, 'graphql_jwt'));
         add_filter('graphql_connection_max_query_amount', array($this, 'graphql_limit'), 10, 5);
         add_filter('allowed_block_types', array($this, 'misha_allowed_block_types'));
+        add_filter('use_block_editor_for_post_type', array($this, 'gutenberg_products'), 10, 2);
         add_action('acf/init', array($this, 'register_blocks'));
         add_action('init', array($this, 'register_menus'));
         add_action('init', array($this, 'register_post_types')); #
         add_action('init', array($this, 'register_taxonomies'));
         parent::__construct();
     }
+
+    public function gutenberg_products($can_edit, $post_type)
+    {
+        if ($post_type == 'product') {
+            $can_edit = true;
+        }
+
+        return $can_edit;
+    }
+
     /** This is where you set your JWT secret. */
     public function graphql_jwt()
     {
