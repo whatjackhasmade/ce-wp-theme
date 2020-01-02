@@ -65,11 +65,27 @@ class StarterSite extends Timber\Site
         add_filter('graphql_jwt_auth_secret_key', array($this, 'graphql_jwt'));
         add_filter('graphql_connection_max_query_amount', array($this, 'graphql_limit'), 10, 5);
         add_filter('allowed_block_types', array($this, 'misha_allowed_block_types'));
+        add_action('acf/init', array($this, 'my_acf_op_init'));
         add_action('acf/init', array($this, 'register_blocks'));
         add_action('init', array($this, 'register_menus'));
         add_action('init', array($this, 'register_post_types')); #
         add_action('init', array($this, 'register_taxonomies'));
         parent::__construct();
+    }
+
+    public function my_acf_op_init()
+    {
+        // Check function exists.
+        if (function_exists('acf_add_options_page')) {
+            // Register options page.
+            $option_page = acf_add_options_page(array(
+                'page_title' => __('Theme General Settings'),
+                'menu_title' => __('Theme Settings'),
+                'menu_slug' => 'theme-general-settings',
+                'capability' => 'edit_posts',
+                'redirect' => false,
+            ));
+        }
     }
 
     public function graphql_jwt()
